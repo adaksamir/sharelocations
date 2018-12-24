@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
                 private router: Router) {}
     
     ngOnInit() {
-        this.isLogin = !!localStorage.getItem('token');
+        this.userDataService.loginTokenObservable.subscribe(boolToken => this.isLogin = boolToken)
     }
 
     userLogout() {
@@ -21,10 +21,5 @@ export class AppComponent implements OnInit{
         console.log('Just Logged out: ', loggedOutToken);
         this.isLogin = !!localStorage.getItem('token');
         this.router.navigate(['/login']);
-    }
-
-    checkLoggedIn(value) {
-        alert(value);
-        this.isLogin = value;
     }
 }

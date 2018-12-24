@@ -4,13 +4,15 @@
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">Email</th>
+        <th scope="col">Shared Locations</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of _users">
-        <td>{{user._id}}</td>
+      <tr *ngFor="let user of _users; let i=index">
+        <td>{{i+1}}</td>
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
+        <td><a class="btn btn-default" [routerLink]="['/locations', user.email]">Show on map</a></td>
       </tr>
     </tbody>
 </table>

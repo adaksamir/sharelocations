@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from './../data/user-data.service';
 import { User } from '../data/user.type';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-user',
@@ -9,13 +10,18 @@ import { User } from '../data/user.type';
 })
 export class ListUserComponent implements OnInit {
   _users : User[];
-  constructor(private userDataService: UserDataService) { }
+  isLogin: boolean;
+  constructor(private userDataService: UserDataService, private router : Router) { }
 
   ngOnInit() {
-    this.userDataService.fetchUsers().subscribe(users=>{
-      this._users=users;
+    // server chekcs wheter logged in or not ...
+    // this.userDataService.loginTokenObservable.subscribe(boolToken => {
+    //   this.isLogin = boolToken;
+    //   this.router.navigate(['/login']);
+    // })
 
-    });
+    this.userDataService.fetchUsers().subscribe(users=>this._users=users);
+
   }
 
   

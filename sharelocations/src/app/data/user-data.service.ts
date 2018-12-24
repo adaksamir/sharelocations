@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { User } from './user.type';
 import { Marker } from './marker.type';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserDataService {
-    _users: User[] = [];
+
+    token = !!localStorage.getItem('token');
+    private loginTokenState = new BehaviorSubject(this.token);
+    loginTokenObservable = this.loginTokenState.asObservable();
+
     _apiFetch = 'http://localhost:3001/api/user/lists';
     _apiLogin = 'http://localhost:3001/api/auth/login';
     _apiRegis = 'http://localhost:3001/api/auth/register';
@@ -16,7 +20,12 @@ export class UserDataService {
     _apiShareLoc = 'http://localhost:3001/api/maps/share';
     _apiSelfLoc = 'http://localhost:3001/api/maps/lists';
     _apiPublicLoc = 'http://localhost:3001/api/maps/lists/';
+
     constructor(private _http: HttpClient) { }
+
+    checkLoginToken(boolToken) {
+        this.loginTokenState.next(boolToken);
+    }
 
     fetchUsers(): Observable<User[]> {
         return this._http.get<User[]>(this._apiFetch, {

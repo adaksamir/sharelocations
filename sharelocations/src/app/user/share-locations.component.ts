@@ -27,9 +27,10 @@ export class ShareLocationsComponent implements OnInit {
     isUsersFlag = false;
     shareSuccessMessage = '';
 
-    isToken: boolean;
+    isLogin: boolean;
 
     constructor(private userDataService: UserDataService, private route: ActivatedRoute, private mapsAPILoader: MapsAPILoader) {
+        
         this.route.params.subscribe( params => {
             if(!!params && !!params['userid']) {
                 this.showPublicLocations(params['userid'])
@@ -37,12 +38,14 @@ export class ShareLocationsComponent implements OnInit {
                 console.log('from constructor userid: , ', params['userid']);
             }            
         });
+        
     }
 
     ngOnInit() {
-        //token checking for logged in user in localstorage ...
-        this.isToken = !!localStorage.getItem('token');
-        if(this.isToken) {
+        // server chekcs wheter logged in or not ...
+        this.userDataService.loginTokenObservable.subscribe(boolToken => this.isLogin = boolToken)
+
+        if(this.isLogin) {
             //have self user data (who logged in)
             this.userDataService.showSelfUser().subscribe(user => {
                 console.log('self user: ', user);
@@ -50,7 +53,8 @@ export class ShareLocationsComponent implements OnInit {
                     this.name = user.name;
                     this.id = user._id.toString();
                 }                
-            });            
+            });
+
             //having all the own share location lists ...
             this.userDataService.getSelfLoc().subscribe(locations => {
                 console.log('own locations, ', locations);
@@ -60,15 +64,17 @@ export class ShareLocationsComponent implements OnInit {
                 } else {
                     console.log('No own locations found.');
                 }
-            }); 
+            });
+
+            //having all the users list ...
+            this.userDataService.fetchUsers().subscribe(users=>{
+                console.log('all users: ', users);
+                if(users) {
+                    this.users=users;
+                }            
+            });
         }
-        //having all the users list ...
-        this.userDataService.fetchUsers().subscribe(users=>{
-            console.log('all users: ', users);
-            if(users) {
-                this.users=users;
-            }            
-        });
+        
     }
 
     showPublicLocations(userid) {
