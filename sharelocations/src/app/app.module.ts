@@ -28,7 +28,7 @@ import { AgmCoreModule } from '@agm/core'
     ReactiveFormsModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBQR-u_OuPA41rDCIdOLMe7x62TpFCBJhU',
+      apiKey: '--',
       libraries: ["places"]
     })
   ],

@@ -28,6 +28,8 @@ STEPS TO INSTALL;:
     will have opeque google map and infrequent reverse geo code feature 
     which is used to get the map pin address from lng and lat
 
+    the api key needs to be pasted into app.module.ts of module sections
+
 6.  banckend install (npm install)
     a. go to 'cd server/'
     b. run 'npm install'
