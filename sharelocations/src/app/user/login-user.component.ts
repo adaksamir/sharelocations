@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
     styleUrls: ['./login-user.component.css']
 })
 export class LoginUserComponent implements OnInit {
-    @Output() isLoggedIn = new EventEmitter();
     employeeForm: FormGroup
     constructor(private formBuilder: FormBuilder,
 				private userDataService: UserDataService, 
@@ -29,11 +28,13 @@ export class LoginUserComponent implements OnInit {
 	userLogin(): void {
         this.userDataService.loginUser(this.employeeForm.value).subscribe(
             user => {
-				console.log('User Login OK: ', user);
+                console.log('User Login OK: ', user);
                 localStorage.setItem('token', user.token.toString());
-                // for logged in or not checking in app commponents ...
-                this.isLoggedIn.emit(user.token.toString());
-                this.router.navigate(['/userlists']);
+
+                //emiting the login status for parents and other components ..
+                this.userDataService.checkLoginToken(user.auth);
+                
+                this.router.navigate(['/locations']);
 			},
             error => console.error("user login error: ", error)
         )

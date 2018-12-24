@@ -15,7 +15,7 @@
         <li *ngIf="!isLogin"><a routerLinkActive="active" routerLink="login">
             <span class="glyphicon glyphicon-log-in"></span> Login</a>
         </li>
-        <li *ngIf="isLogin"><a (click)="userLogout()">
+        <li *ngIf="isLogin"><a (click)="userLogout()" style="cursor: pointer">
             <span class="glyphicon glyphicon-log-out"></span> Logout</a>
         </li>
       </ul>
@@ -23,9 +23,9 @@
     </div>
   </nav>
 
-  <router-outlet (isLoggedIn)="checkLoggedIn($event)"></router-outlet>
+  <router-outlet></router-outlet>
 
-  <footer class="footer">
+  <footer class="footer" style="margin-top: 20px">
       <div class="panel-footer panel-default">Panel Footer</div>
   </footer>
 
