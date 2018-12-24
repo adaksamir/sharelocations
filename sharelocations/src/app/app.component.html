@@ -1,0 +1,32 @@
+<div class="container">
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+      <ul class="nav navbar-nav">
+        <li><a routerLinkActive="active" routerLink="userlists">User Lists</a></li>
+        <li><a routerLinkActive="active" routerLink="locations">Shared Locations</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right" style="margin-right:5px;">
+        <li *ngIf="!isLogin"><a routerLinkActive="active" routerLink="signup">
+            <span class="glyphicon glyphicon-user"></span> Sign Up</a>
+        </li>
+        <li *ngIf="!isLogin"><a routerLinkActive="active" routerLink="login">
+            <span class="glyphicon glyphicon-log-in"></span> Login</a>
+        </li>
+        <li *ngIf="isLogin"><a (click)="userLogout()">
+            <span class="glyphicon glyphicon-log-out"></span> Logout</a>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <router-outlet (isLoggedIn)="checkLoggedIn($event)"></router-outlet>
+
+  <footer class="footer">
+      <div class="panel-footer panel-default">Panel Footer</div>
+  </footer>
+
+</div>

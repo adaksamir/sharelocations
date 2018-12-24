@@ -1,0 +1,66 @@
+<form [formGroup]="employeeForm" (ngSubmit)="submitUser()" class="form-horizontal">
+    <div class="panel panel-primary">
+        <div class="panel-heading"><strong>Register User</strong></div>
+        <div class="panel-body">
+
+            <div class="form-group" [ngClass]="{'has-error': employeeForm.get('name').errors 
+          && (employeeForm.get('name').touched || employeeForm.get('name').dirty)}">
+                <label for="name" class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="name" formControlName="name" />
+                    <span class="help-block" *ngIf="employeeForm.get('name').errors 
+                                                && (employeeForm.get('name').touched || employeeForm.get('name').dirty)">
+                        <span *ngIf="employeeForm.get('name').errors.required">First name required</span>
+                        <span *ngIf="employeeForm.get('name').errors.minlength || employeeForm.get('name').errors.maxlength">
+                            First name must be greater than 2 and less then 25 characters
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-error': employeeForm.get('email').errors 
+          && (employeeForm.get('email').touched || employeeForm.get('email').dirty)}">
+                <label for="email" class="col-sm-2 control-label">Email:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="email" formControlName="email" />
+                    <span class="help-block" *ngIf="employeeForm.get('email').errors 
+                                                && (employeeForm.get('email').touched || employeeForm.get('email').dirty)">
+                        <span *ngIf="employeeForm.get('email').errors.required">Email required</span>
+                        <span *ngIf="employeeForm.get('email').errors">Email not valid</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-error': employeeForm.get('password').errors 
+          && (employeeForm.get('password').touched || employeeForm.get('password').dirty)}">
+                <label for="password" class="col-sm-2 control-label">Password:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="password" formControlName="password" />
+                    <span class="help-block" *ngIf="employeeForm.get('password').errors 
+                                                && (employeeForm.get('password').touched || employeeForm.get('password').dirty)">
+                        <span *ngIf="employeeForm.get('password').errors.required">Password required</span>
+                        <span *ngIf="employeeForm.get('password').errors.minlength || employeeForm.get('password').errors.maxlength">
+                            Password must be greater than 5 characters
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-error': employeeForm.get('confpass').errors 
+          && (employeeForm.get('confpass').touched || employeeForm.get('confpass').dirty)}">
+                <label for="confpass" class="col-sm-2 control-label">Confirm Password:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="confpass" formControlName="confpass" />
+                    <span class="help-block" *ngIf="employeeForm.get('confpass').errors 
+                                                && (employeeForm.get('confpass').touched || employeeForm.get('confpass').dirty)">
+                        <span *ngIf="employeeForm.get('confpass').errors.required">Confirm Password required</span>
+                        <span *ngIf="employeeForm.get('confpass').errors.isError">Confirm password not matched</span>
+                    </span>
+                </div>
+            </div>
+
+            <button [disabled]="!employeeForm.valid" type="submit" class="btn btn-primary pull-right">Submit</button>
+
+        </div>
+    </div>
+</form>

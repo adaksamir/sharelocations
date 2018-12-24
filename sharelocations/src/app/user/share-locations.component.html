@@ -1,0 +1,55 @@
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)">
+    <div *ngIf="!!markers">
+    <agm-marker 
+        *ngFor="let m of markers" 
+        [latitude]="m?.lat" 
+        [longitude]="m?.lng" 
+        [markerDraggable]="m?.draggable" 
+        (markerClick) ="clickedMarker(m?.name)" 
+        (dragEnd)="markerDragEnd(m, $event)">
+        <agm-info-window>
+            <div class="col-sm-12" style="padding-left:0">
+                <strong>{{m.who==id?'You':m?.name}}</strong>&nbsp;&nbsp;
+                <small>({{m.whom?(m.who==id?m.whom.split(',').length:'You'):'public'}})</small>
+                <br /><small>{{m?.address}}</small>
+                <br /><small>{{m?.when}}</small>
+                <br/><br/>
+            </div>            
+        </agm-info-window>
+    </agm-marker>
+    </div>  
+    <div *ngIf="!!marker && !!isToken">    
+    <agm-marker
+        [latitude]="marker?.lat" 
+        [longitude]="marker?.lng" 
+        [markerDraggable]="marker?.draggable" 
+        (markerClick)="clickedMarker(marker?.name)"
+        (dragEnd)="markerDragEnd(marker, $event)">
+        <agm-info-window [isOpen]="true">
+            <div class="col-sm-8" style="padding-left:0">
+                <strong>{{marker.who==id?'You':marker.name}}</strong>
+                <br /><small>{{marker?.address}}</small>
+                <br /><small>{{marker?.lng}} / {{marker?.lat}}</small>
+                <br/><br/>
+            </div>
+            <div *ngIf="!shareSuccessMessage">
+                <div *ngIf="!isUsersFlag" class="col-sm-8" style="margin: 0">
+                    <button class="btn btn-default btn-sm col-sm-12" (click)="sharePublic()">Public Share</button>
+                    <button class="btn btn-default btn-sm col-sm-12 pull-right" (click)="isUsersFlag=!isUsersFlag">Private Share</button>
+                </div>
+                <div *ngIf="isUsersFlag" class="col-sm-8" style="padding-left: 0;"> 
+                    <div class="col-sm-8" style="padding-left:0">Select friends (ctrl+click)</div>
+                    <select name="selected" [(ngModel)]="selectedUsers" #user_id="ngModel"  class="col-sm-8" multiple="multiple" style="padding-left:0">
+                        <option *ngFor="let user of users" [value]="user._id">{{user.name}}</option>
+                    </select>
+                    <button class="btn btn-primary col-sm-8" style="margin-top:5px" (click)="sharePrivate(user_id)">Share to friends</button>
+                </div>
+            </div>
+            <div *ngIf="shareSuccessMessage">
+                <div class="col-sm-8" style="padding-left:0">{{shareSuccessMessage}}</div>
+            </div>
+
+        </agm-info-window>
+    </agm-marker>
+    </div>
+</agm-map>
